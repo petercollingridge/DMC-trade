@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import render
 
 from modelcluster.fields import ParentalKey
 
@@ -15,7 +16,6 @@ from wagtail.admin.edit_handlers import (
     MultiFieldPanel
 )
 
-
 class ItemBlock(blocks.StructBlock):
     name = blocks.CharBlock()
     code = blocks.CharBlock()
@@ -25,35 +25,39 @@ class ItemBlock(blocks.StructBlock):
         icon = 'placeholder'
 
 
-class TradeListingPage(Page):
+class TradeListingPage(AbstractEmailForm):
+    """ Page listing all items, with a form to email the order. """
+
     body = StreamField([
         ('heading', blocks.CharBlock(classname="full title")),
         ('paragraph', blocks.RichTextBlock()),
-        ('item', ItemBlock()),
+        ('section_block', blocks.ListBlock(ItemBlock)),
     ])
+
+    thank_you_text = RichTextField(
+            blank=True,
+            help_text="Text to use on the 'thank you' page")
 
     content_panels = Page.content_panels + [
         StreamFieldPanel('body'),
+        FieldPanel('thank_you_text', classname="full")
     ]
 
+    def serve(self, request):
+        from dmcTrade.trade.forms import OrderForm
 
-class FormField(AbstractFormField):
-    page = ParentalKey('FormPage', on_delete=models.CASCADE, related_name='form_fields')
+        if request.method == 'POST':
+            form = OrderForm(request.POST)
+            if form.is_valid():
+                order = form.save()
+                return render(request, 'order/thankyou.html', {
+                    'page': self,
+                    'flavour': order,
+                })
+        else:
+            form = OrderForm()
 
-
-class FormPage(AbstractEmailForm):
-    intro = RichTextField(blank=True)
-    thank_you_text = RichTextField(blank=True)
-
-    content_panels = AbstractEmailForm.content_panels + [
-        FieldPanel('intro', classname="full"),
-        InlinePanel('form_fields', label="Form fields"),
-        FieldPanel('thank_you_text', classname="full"),
-        MultiFieldPanel([
-            FieldRowPanel([
-                FieldPanel('from_address', classname="col6"),
-                FieldPanel('to_address', classname="col6"),
-            ]),
-            FieldPanel('subject'),
-        ], "Email"),
-    ]
+        return render(request, 'trade/trade_listing_page.html', {
+            'page': self,
+            'form': form,
+        })
