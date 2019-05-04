@@ -1,0 +1,85 @@
+
+
+body {
+    background-color: rgb(226, 230, 230);
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+    margin: 0;
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+header {
+    padding: 24px;
+    background-color: rgb(210, 230, 236);
+}
+
+p {  
+    font-weight: 300;
+}
+
+.logo {
+    height: 72px;
+    float: left;
+    padding-right:16px;
+}
+
+header h1 {
+    font-weight: 300;
+    color: rgb(39, 40, 37);
+}
+
+main {
+    margin: 0 auto;
+    max-width: 1028px;
+    padding-left: 24px;
+    padding-right: 24px;
+    color: rgb(78, 80, 74);
+}
+
+.trade-item-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.trade-item {
+    width: 180px;
+    height: 200px;
+    display: inline-block;
+    padding: 8px 10px;
+    border-radius: 2px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: white;
+}
+
+.trade-item figcaption {
+    font-size: 0.85rem;
+    line-height: 20px;
+    height: 20px;
+    text-transform: uppercase;
+    overflow: hidden;
+}
+
+.item-name {
+    font-weight: 300;
+}
+
+.trade-item-img {
+    position: relative;
+}
+
+.select-trade-item {
+    position: absolute;
+    right: 0;
+    top: 5px;
+}
+
+.trade-item img {
+    position: absolute;
+    margin: auto 0;
+}
