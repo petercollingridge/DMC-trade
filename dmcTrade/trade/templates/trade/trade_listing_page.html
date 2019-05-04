@@ -5,47 +5,55 @@
 {% block body_class %}trade-page{% endblock %}
 
 {% block content %}
-    <h1>{{ page.title }}</h1>
+    <header>
+        <img class="logo" src="/media/images/dmc_logo_crop.png"/>
+        <h1>{{ page.title }}</h1>
+    </header>
 
-    <article>
+    <main role="main">
         {% for block in page.body %}
             {% if block.block_type == 'heading' %}
-                <h1>{{ block.value }}</h1>
-            {% elif block.block_type == 'item' %}
-                <div class="trade-item">
-                    <h3>{{ block.value.name }} | {{ block.value.code }}</h3>
-                    <select>
-                        <option value='0'>None</option>
-                        <option value='6'>6</option>
-                        <option value='12'>12</option>
-                        <option value='18'>18</option>
-                        <option value='24'>24</option>
-                    </select>
+                <h2>{{ block.value }}</h1>
+            {% elif block.block_type == 'section_block' %}
+                <section class="trade-item-group">
+                    {% for item in block.value %}
+                        <figure class="trade-item" title="{{ item.name }}">
+                            <figcaption>
+                                <span class="item-code">{{ item.code }}</span>
+                                <span class="item-name"> - {{ item.name }}</span>
+                            </figcaption>
 
-                    {% image block.value.image height-200 %}
-                </div>
+                            <div class="trade-item-img">
+                                {% image item.image width-160 %}
+
+                                <select class="select-trade-item" data-name="{{ item.name }}">
+                                    <option value='0'>0</option>
+                                    <option value='6'>6</option>
+                                    <option value='12'>12</option>
+                                    <option value='18'>18</option>
+                                    <option value='24'>24</option>
+                                </select>
+                            </div>
+                        </figure>
+                    {% endfor %}
+                </section>
             {% else %}
-                <section>{% include_block block %}</section>
+                <section class="trade-description">{% include_block block %}</section>
             {% endif %}
         {% endfor %}
-    </article>
 
-    <section>
-        <h2>Order form</h2>
-        <p>Select the card from above, then fill in your details</p>
-        <form>
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="user_name">
-              </div>
-              <div>
-                <label for="mail">E-mail:</label>
-                <input type="email" id="mail" name="user_mail">
-              </div>
-              <div>
-                  <button type="submit">Submit</button>
-              </div>
-        </form>
-    </section>
+        <section>
+            <h2>Order form</h2>
+            <p>Select the cards from above, then fill in your details</p>
+            <form action="." method="POST">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+                
+                <p><input type="submit" value="Submit order"></p>
+            </form>
+        </section>
+
+    </main>
 
 {% endblock %}
