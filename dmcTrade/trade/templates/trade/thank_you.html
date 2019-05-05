@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}trade-page{% endblock %}
+
+{% block content %}
+    <header>
+        <img class="logo" src="/media/images/dmc_logo_crop.png"/>
+        <h1>Thank you</h1>
+    </header>
+
+    </main>
+        <p>{{ page.thank_you_text }}</p>
+    </main>
+
+{% endblock %}
