@@ -3,3 +3,4 @@ pw.txt
 *.sqlite3
 *pycgi
 media/*
+*.pyc
