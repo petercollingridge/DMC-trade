@@ -14,9 +14,7 @@
                     <span class="item-name"> - {{ item.name }}</span>
                 </figcaption>
 
-                <div class="trade-item-img">
-                    {% image item.image width-160 %}
-
+                <div class="select-trade-item-wrapper">
                     <select class="select-trade-item" data-name="{{ item.name }}">
                         <option value='0'>0</option>
                         <option value='6'>6</option>
@@ -25,6 +23,8 @@
                         <option value='24'>24</option>
                     </select>
                 </div>
+
+                {% image item.image width-160 %}
             </figure>
         {% endfor %}
     </div>

@@ -36,7 +36,7 @@ h2 {
     font-weight: 400;
     text-transform: uppercase;
     font-size: 1.1rem;
-    margin-top: 0.6rem;
+    margin-top: 0.8rem;
     margin-bottom: 0.2rem;
 }
 
@@ -55,11 +55,11 @@ main {
     justify-content: space-around;
     margin-left: -10px;
     margin-right: -10px;
+    border-bottom: 1px solid #ccc;
 }
 
 .trade-item {
     width: 160px;
-    height: 180px;
     display: inline-block;
     margin-left: 10px;
     margin-right: 10px;
@@ -79,19 +79,16 @@ main {
     font-weight: 300;
 }
 
-.trade-item-img {
-    background-color: white;
+.select-trade-item-wrapper {
     position: relative;
 }
 
 .select-trade-item {
     position: absolute;
-    border-radius: 2px;
     right: 5px;
     top: 5px;
 }
 
 .trade-item img {
-    position: absolute;
     margin: auto 0;
 }
