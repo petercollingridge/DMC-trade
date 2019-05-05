@@ -15,26 +15,37 @@ header {
     background-color: rgb(210, 230, 236);
 }
 
-p {  
-    font-weight: 300;
-}
-
 .logo {
     height: 72px;
     float: left;
     padding-right:16px;
 }
 
-header h1 {
+p {  
     font-weight: 300;
+    margin-top: 0.25rem;
+}
+
+h1 {
     color: rgb(39, 40, 37);
+    font-weight: 300;
+}
+
+h2 {
+    color: rgb(88, 160, 180);
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    margin-top: 0.6rem;
+    margin-bottom: 0.2rem;
 }
 
 main {
     margin: 0 auto;
-    max-width: 1028px;
+    max-width: 1012px;
     padding-left: 24px;
     padding-right: 24px;
+    padding-top: 12px;
     color: rgb(78, 80, 74);
 }
 
@@ -47,22 +58,21 @@ main {
 }
 
 .trade-item {
-    width: 180px;
-    height: 200px;
+    width: 160px;
+    height: 180px;
     display: inline-block;
-    padding: 8px 10px;
-    border-radius: 2px;
     margin-left: 10px;
     margin-right: 10px;
-    background-color: white;
 }
 
 .trade-item figcaption {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     line-height: 20px;
     height: 20px;
     text-transform: uppercase;
     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .item-name {
@@ -70,12 +80,14 @@ main {
 }
 
 .trade-item-img {
+    background-color: white;
     position: relative;
 }
 
 .select-trade-item {
     position: absolute;
-    right: 0;
+    border-radius: 2px;
+    right: 5px;
     top: 5px;
 }
 

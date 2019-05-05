@@ -1,5 +1,6 @@
 from django.db import models
-from django.shortcuts import render
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
 
 from modelcluster.fields import ParentalKey
 
@@ -22,25 +23,30 @@ class ItemBlock(blocks.StructBlock):
     image = ImageChooserBlock(required=False)
 
     class Meta:
+        icon = 'image'
+
+
+class SectionBlock(blocks.StructBlock):
+    heading = blocks.CharBlock()
+    description = blocks.RichTextBlock(blank=True)
+    items = blocks.ListBlock(ItemBlock)
+
+    class Meta:
         icon = 'placeholder'
+        template = 'trade/blocks/section_block.html'
 
 
-class TradeListingPage(AbstractEmailForm):
+class TradeListingPage(Page):
     """ Page listing all items, with a form to email the order. """
 
     body = StreamField([
         ('heading', blocks.CharBlock(classname="full title")),
-        ('paragraph', blocks.RichTextBlock()),
-        ('section_block', blocks.ListBlock(ItemBlock)),
+        ('paragraph', blocks.RichTextBlock(blank=True)),
+        ('section_block', SectionBlock()),
     ])
-
-    thank_you_text = RichTextField(
-            blank=True,
-            help_text="Text to use on the 'thank you' page")
 
     content_panels = Page.content_panels + [
         StreamFieldPanel('body'),
-        FieldPanel('thank_you_text', classname="full")
     ]
 
     def serve(self, request):
@@ -49,10 +55,14 @@ class TradeListingPage(AbstractEmailForm):
         if request.method == 'POST':
             form = OrderForm(request.POST)
             if form.is_valid():
-                order = form.save()
-                return render(request, 'order/thankyou.html', {
-                    'page': self,
-                    'flavour': order,
+                sender = form.cleaned_data['sender']
+                message = form.cleaned_data['order']
+                subject = "Order from " + form.cleaned_data['name']
+                recipients = ['peter.collingridge@gmail.com', sender]
+                send_mail(subject, message, sender, recipients)
+                
+                return redirect('/thank-you.html', {
+                    'page': self
                 })
         else:
             form = OrderForm()
@@ -61,3 +71,11 @@ class TradeListingPage(AbstractEmailForm):
             'page': self,
             'form': form,
         })
+
+
+class ThankYouPage(Page):
+    body = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body', classname="full"),
+    ]
