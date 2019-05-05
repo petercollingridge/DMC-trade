@@ -23,19 +23,27 @@
             <form action="." method="POST">
                 {% csrf_token %}
 
-                {{ form.as_p }}
+                <div class="fieldWrapper">
+                    {{ form.name.errors }} {{ form.name.label_tag }} {{ form.name }}
+                </div>
+                <div class="fieldWrapper">
+                    {{ form.email.errors }} {{ form.email.label_tag }} {{ form.email }}
+                </div>
+
                 {{ form.order.as_hidden }}
 
                 {% verbatim %}
-                <div id="order-list">
-                    <div v-for="(count, item) in order" v-if="count !== '0'">
-                        {{ item }} {{ count }}
+                    <div id="order-list">
+                        <div v-if="total > 0">
+                            <div v-for="(count, item) in order" v-if="count !== '0'">
+                                {{ item }} {{ count }}
+                            </div>
+                            <div>Total: {{ total }}</div>
+                        </div>
                     </div>
-                    <div>Total: {{ total }}</div>
-                </div>
                 {% endverbatim %}
 
-                <p><input type="submit" value="Submit order"></p>
+                <div><button type="submit">Submit order</div>
             </form>
         </section>
 
