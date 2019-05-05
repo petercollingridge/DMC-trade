@@ -5,6 +5,8 @@
 {% block body_class %}trade-page{% endblock %}
 
 {% block content %}
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
     <header>
         <img class="logo" src="/media/images/dmc_logo_crop.png"/>
         <h1>{{ page.title }}</h1>
@@ -22,6 +24,16 @@
                 {% csrf_token %}
 
                 {{ form.as_p }}
+                {{ form.order.as_hidden }}
+
+                {% verbatim %}
+                <div id="order-list">
+                    <div v-for="(count, item) in order" v-if="count !== '0'">
+                        {{ item }} {{ count }}
+                    </div>
+                    <div>Total: {{ total }}</div>
+                </div>
+                {% endverbatim %}
 
                 <p><input type="submit" value="Submit order"></p>
             </form>
