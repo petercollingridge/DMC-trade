@@ -55,13 +55,13 @@ class TradeListingPage(Page):
         if request.method == 'POST':
             form = OrderForm(request.POST)
             if form.is_valid():
-                sender = form.cleaned_data['sender']
+                sender = form.cleaned_data['email']
                 message = form.cleaned_data['order']
                 subject = "Order from " + form.cleaned_data['name']
                 recipients = ['peter.collingridge@gmail.com', sender]
                 send_mail(subject, message, sender, recipients)
                 
-                return redirect('/thank-you.html', {
+                return redirect('/thank-you', {
                     'page': self
                 })
         else:
