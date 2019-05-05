@@ -40,6 +40,11 @@ h2 {
     margin-bottom: 0.2rem;
 }
 
+hr {
+    border-style: none;
+    border-bottom: 1px solid #ccc;
+}
+
 main {
     margin: 0 auto;
     max-width: 1012px;
@@ -61,12 +66,10 @@ main {
 .trade-item {
     width: 160px;
     display: inline-block;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: 0 10px 20px 10px;
 }
 
 .trade-item figcaption {
-    font-size: 0.8rem;
     line-height: 20px;
     height: 20px;
     text-transform: uppercase;
@@ -75,7 +78,12 @@ main {
     white-space: nowrap;
 }
 
+.item-code {
+    font-size: 0.9rem;
+}
+
 .item-name {
+    font-size: 0.8rem;
     font-weight: 300;
 }
 
