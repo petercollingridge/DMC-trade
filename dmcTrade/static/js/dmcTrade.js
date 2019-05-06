@@ -7,10 +7,21 @@ var vm = new Vue({
 });
 
 function updateOrder(event) {
-    var item = event.target.getAttribute('data-name');
-    var value = event.target.value;
-    var changeInTotal = value - (vm.order[item] || 0);
-    Vue.set(vm.order, item, value);
+    var amount = parseInt(event.target.value);
+    var itemData = event.target.getAttribute('data-name').split('|');
+
+    var itemCode = itemData[0];
+    var itemName = itemData[1];
+
+    var changeInTotal = amount;
+    if (vm.order[itemCode]) {
+        changeInTotal -= vm.order[itemCode].amount;
+    }
+
+    Vue.set(vm.order, itemCode, {
+        name: itemName,
+        amount: amount
+    });
     vm.total += changeInTotal;
 }
 

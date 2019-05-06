@@ -39,18 +39,21 @@
                             <thead>
                                 <tr>
                                     <th>Item code</th>
+                                    <th>Item name</th>
                                     <th>Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(count, item) in order" v-if="count !== '0'">
-                                    <td>{{ item }}</td>
-                                    <td>{{ count }}</td>
+                                <tr v-for="(item, code) in order" v-if="item.amount !== '0'">
+                                    <td>{{ code }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.amount }}</td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Total</th>
+                                    <th></th>
                                     <th>{{ total }}</th>
                                 </tr>
                             </tfoot>
