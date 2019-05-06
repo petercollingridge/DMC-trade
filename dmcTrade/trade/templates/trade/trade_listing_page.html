@@ -20,30 +20,46 @@
         <section>
             <h2>Order form</h2>
             <p>Select the cards from above, then fill in your details</p>
-            <form action="." method="POST">
+            <form id="order-form" action="." method="POST">
                 {% csrf_token %}
 
-                <div class="fieldWrapper">
+                <div class="field-wrapper">
                     {{ form.name.errors }} {{ form.name.label_tag }} {{ form.name }}
                 </div>
-                <div class="fieldWrapper">
+                <div class="field-wrapper">
                     {{ form.email.errors }} {{ form.email.label_tag }} {{ form.email }}
+                    <div><small>Only required if you want a copy of your order sent to you.</small></div>
                 </div>
 
                 {{ form.order.as_hidden }}
 
                 {% verbatim %}
                     <div id="order-list">
-                        <div v-if="total > 0">
-                            <div v-for="(count, item) in order" v-if="count !== '0'">
-                                {{ item }} {{ count }}
-                            </div>
-                            <div>Total: {{ total }}</div>
-                        </div>
+                        <table v-if="total > 0">
+                            <thead>
+                                <tr>
+                                    <th>Item code</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(count, item) in order" v-if="count !== '0'">
+                                    <td>{{ item }}</td>
+                                    <td>{{ count }}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total</th>
+                                    <th>{{ total }}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div v-else>Select items from above.</div>
+
+                        <div><button type="submit" :disabled="total === 0">Submit order</div>
                     </div>
                 {% endverbatim %}
-
-                <div><button type="submit">Submit order</div>
             </form>
         </section>
 

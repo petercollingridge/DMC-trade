@@ -100,6 +100,48 @@ main {
     margin: auto 0;
 }
 
+#order-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.field-wrapper {
+    margin-bottom: 12px;
+}
+
+input {
+    height: 2rem;
+    border: 1px solid #c8c8c8;
+    padding-left: 8px;
+    font-size: 0.9rem;
+}
+
+label {
+    padding-right: 4px;
+}
+
+#order-list table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#order-list thead, tfoot {
+    background-color: rgb(210, 230, 236);
+}
+
+#order-list thead th, tfoot th {
+    font-weight: 500;
+}
+
+#order-list tbody {
+    font-weight: 300;
+}
+
+#order-list td, th {
+    padding: 0.3rem 0.6rem;
+    text-align: center;
+}
+
 button[type=submit] {
     padding: .3rem .6rem;
     font-size: 1rem;
@@ -109,9 +151,19 @@ button[type=submit] {
     background-color: rgb(88, 160, 180);
     color: white;
     transition: background-color .15s;
+    display: block;
+    margin: 16px auto;
+}
+
+button:not(:disabled) {
     cursor: pointer;
 }
 
-button[type=submit]:hover {
+button[type=submit]:not(:disabled):hover {
     background-color: rgb(80, 140, 160);
+}
+
+button:disabled {
+    color: #888;
+    background-color: #aaa;
 }
