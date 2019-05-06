@@ -4,68 +4,62 @@
 
 {% block body_class %}trade-page{% endblock %}
 
+{% block header %}
+    {{ page.title }}
+{% endblock %}
+
 {% block content %}
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    {% for block in page.body %}
+        {{ block }}
+    {% endfor %}
 
-    <header>
-        <img class="logo" src="/media/images/dmc_logo_crop.png"/>
-        <h1>{{ page.title }}</h1>
-    </header>
+    <section>
+        <h2>Order form</h2>
+        <p>Select the cards from above, then fill in your details</p>
+        <form id="order-form" action="." method="POST">
+            {% csrf_token %}
 
-    <main role="main">
-        {% for block in page.body %}
-            {{ block }}
-        {% endfor %}
+            <div class="field-wrapper">
+                {{ form.name.errors }} {{ form.name.label_tag }} {{ form.name }}
+            </div>
+            <div class="field-wrapper">
+                {{ form.email.errors }} {{ form.email.label_tag }} {{ form.email }}
+                <div><small>Only required if you want a copy of your order sent to you.</small></div>
+            </div>
 
-        <section>
-            <h2>Order form</h2>
-            <p>Select the cards from above, then fill in your details</p>
-            <form id="order-form" action="." method="POST">
-                {% csrf_token %}
+            {{ form.order.as_hidden }}
 
-                <div class="field-wrapper">
-                    {{ form.name.errors }} {{ form.name.label_tag }} {{ form.name }}
+            {% verbatim %}
+                <div id="order-list">
+                    <table v-if="total > 0">
+                        <thead>
+                            <tr>
+                                <th>Item code</th>
+                                <th>Item name</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, code) in order" v-if="item.amount !== '0'">
+                                <td class="item-code">{{ code }}</td>
+                                <td class="item-name">{{ item.name }}</td>
+                                <td>{{ item.amount }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total</th>
+                                <th></th>
+                                <th>{{ total }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div v-else>Select items from above.</div>
+
+                    <div><button type="submit" :disabled="total === 0">Submit order</div>
                 </div>
-                <div class="field-wrapper">
-                    {{ form.email.errors }} {{ form.email.label_tag }} {{ form.email }}
-                    <div><small>Only required if you want a copy of your order sent to you.</small></div>
-                </div>
-
-                {{ form.order.as_hidden }}
-
-                {% verbatim %}
-                    <div id="order-list">
-                        <table v-if="total > 0">
-                            <thead>
-                                <tr>
-                                    <th>Item code</th>
-                                    <th>Item name</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(item, code) in order" v-if="item.amount !== '0'">
-                                    <td>{{ code }}</td>
-                                    <td>{{ item.name }}</td>
-                                    <td>{{ item.amount }}</td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Total</th>
-                                    <th></th>
-                                    <th>{{ total }}</th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <div v-else>Select items from above.</div>
-
-                        <div><button type="submit" :disabled="total === 0">Submit order</div>
-                    </div>
-                {% endverbatim %}
-            </form>
-        </section>
-
-    </main>
-
+            {% endverbatim %}
+        </form>
+    </section>
 {% endblock %}

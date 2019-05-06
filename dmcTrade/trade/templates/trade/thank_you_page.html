@@ -4,15 +4,9 @@
 
 {% block body_class %}trade-page{% endblock %}
 
+{% block header %}Thank you{% endblock %}
+
 {% block content %}
-    <header>
-        <img class="logo" src="/media/images/dmc_logo_crop.png"/>
-        <h1>Thank you</h1>
-    </header>
-
-    <main role="main">
-        <p>{{ page.body | richtext }}</p>
-        <p>{{ page.thank_you_text }}</p>
-    </main>
-
+    <p>{{ page.body | richtext }}</p>
+    <p>{{ page.thank_you_text }}</p>
 {% endblock %}

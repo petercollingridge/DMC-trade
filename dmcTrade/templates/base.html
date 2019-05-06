@@ -28,7 +28,14 @@
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
-        {% block content %}{% endblock %}
+        <header>
+            <img class="logo" src="/media/images/dmc_logo_crop.png"/>
+            <h1>{% block header %}{% endblock %}</h1>
+        </header>
+
+        <main role="main">
+            {% block content %}{% endblock %}
+        </main>
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/dmcTrade.js' %}"></script>

@@ -6,6 +6,8 @@ var vm = new Vue({
     },
 });
 
+var orderList = document.getElementById('id_order');
+
 function updateOrder(event) {
     var amount = parseInt(event.target.value);
     var itemData = event.target.getAttribute('data-name').split('|');
@@ -23,6 +25,8 @@ function updateOrder(event) {
         amount: amount
     });
     vm.total += changeInTotal;
+
+    orderList.setAttribute('value', JSON.stringify(vm.order));
 }
 
 // Add event handlers to drops down elements;

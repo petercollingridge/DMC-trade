@@ -1,9 +1,13 @@
 {% extends "base.html" %}
+{% load wagtailcore_tags %}
 
 {% block body_class %}homepage{% endblock %}
 
-{% block content %}
-    <h1>Welcome to the DMC trade page</h1>
+{% block header %}
+    {{ page.title }}
+{% endblock %}
 
+{% block content %}
+    {{ page.intro | richtext }}
     <p>Order cards here <a href="/trade-orders">here</a>.</p>
 {% endblock %}
