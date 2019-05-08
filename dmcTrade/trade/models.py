@@ -45,7 +45,10 @@ class TradeListingPage(Page):
         ('section_block', SectionBlock()),
     ])
 
+    card_price = models.FloatField()
+
     content_panels = Page.content_panels + [
+        FieldPanel('card_price', classname="full"),
         StreamFieldPanel('body'),
     ]
 
