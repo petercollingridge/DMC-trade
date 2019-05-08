@@ -2,7 +2,8 @@ var vm = new Vue({
     el: '#order-list',
     data: {
         order: {},
-        total: 0
+        totalAmount: 0,
+        totalPrice: 0,
     },
 });
 
@@ -22,9 +23,12 @@ function updateOrder(event) {
 
     Vue.set(vm.order, itemCode, {
         name: itemName,
-        amount: amount
+        amount: amount,
+        price: (amount * cardPrice).toFixed(2)
     });
-    vm.total += changeInTotal;
+
+    vm.totalAmount += changeInTotal;
+    vm.totalPrice = (vm.totalAmount * cardPrice).toFixed(2);
 
     orderList.setAttribute('value', JSON.stringify(vm.order));
 }
