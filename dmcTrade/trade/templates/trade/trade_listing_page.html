@@ -10,7 +10,6 @@
 
 {% block content %}
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script>var cardPrice = {{ page.card_price }};</script>
 
     {% for block in page.body %}
         {{ block }}
@@ -28,12 +27,21 @@
             <div class="field-wrapper">
                 {{ form.email.errors }} {{ form.email.label_tag }} {{ form.email }}
             </div>
+            <div class="field-wrapper">
+                {{ form.delivery_address.errors }} {{ form.delivery_address.label_tag }} {{ form.delivery_address }}
+            </div>
+            <div class="field-wrapper">
+                {{ form.billing_address.errors }} {{ form.billing_address.label_tag }} {{ form.billing_address }}
+            </div>
+            <div class="field-wrapper">
+                {{ form.comments.errors }} {{ form.comments.label_tag }} {{ form.comments }}
+            </div>
 
             {{ form.order.as_hidden }}
 
             {% verbatim %}
                 <div id="order-list">
-                    <table v-if="totalAmount > 0">
+                    <table v-if="totalQuantity > 0">
                         <thead>
                             <tr>
                                 <th>Item code</th>
@@ -54,16 +62,34 @@
                             <tr>
                                 <th>Total</th>
                                 <th></th>
-                                <th>{{ totalAmount }}</th>
-                                <th>£{{ totalPrice }}</th>
+                                <th>{{ totalQuantity }}</th>
+                                <th>{{ formatPrice(totalPrice) }}</th>
                             </tr>
                         </tfoot>
                     </table>
-                    <div v-else>Select items from above.</div>
 
-                    <div><button type="submit" :disabled="totalAmount === 0">Submit order</div>
+                    <div>
+                        <button type="submit" :disabled="totalQuantity === 0">
+                            Submit order
+                        </button>
+                    </div>
                 </div>
             {% endverbatim %}
         </form>
     </section>
+{% endblock %}
+
+{% block footer %}
+    {% verbatim %}
+        <footer role="footer" class="sticky-footer">
+            <div id="order-footer">
+                <div v-if="totalQuantity > 0">
+                    {{ totalQuantity }} items for {{ formatPrice(totalPrice) }}
+                </div>
+                <div v-else>
+                    Select your cards
+                </div>
+            </div>
+        </footer>
+    {% endverbatim %}
 {% endblock %}

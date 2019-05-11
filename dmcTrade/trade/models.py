@@ -29,6 +29,7 @@ class ItemBlock(blocks.StructBlock):
 class SectionBlock(blocks.StructBlock):
     heading = blocks.CharBlock()
     description = blocks.RichTextBlock(blank=True)
+    item_price = blocks.FloatBlock()
     items = blocks.ListBlock(ItemBlock)
 
     class Meta:
@@ -45,10 +46,7 @@ class TradeListingPage(Page):
         ('section_block', SectionBlock()),
     ])
 
-    card_price = models.FloatField()
-
     content_panels = Page.content_panels + [
-        FieldPanel('card_price', classname="full"),
         StreamFieldPanel('body'),
     ]
 

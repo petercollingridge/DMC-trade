@@ -29,13 +29,15 @@
         {% wagtailuserbar %}
 
         <header>
-            <img class="logo" src="/media/images/dmc_logo_crop.png"/>
+            <a href="/"><img class="logo" alt="DMC logo" src="/media/images/dmc_logo_crop.png"/></a>
             <h1>{% block header %}{% endblock %}</h1>
         </header>
 
         <main role="main">
             {% block content %}{% endblock %}
         </main>
+
+        {% block footer %}{% endblock %}
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/dmcTrade.js' %}"></script>

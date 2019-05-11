@@ -15,7 +15,12 @@
                 </figcaption>
 
                 <div class="select-trade-item-wrapper">
-                    <select class="select-trade-item" data-name="{{ item.code }}|{{ item.name }}">
+                    <select
+                        class="select-trade-item"
+                        data-code="{{ item.code }}"
+                        data-name="{{ item.name }}"
+                        data-price="{{ value.item_price }}"
+                    >
                         <option value='0'>0</option>
                         <option value='6'>6</option>
                         <option value='12'>12</option>

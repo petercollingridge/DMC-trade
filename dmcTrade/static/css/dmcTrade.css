@@ -15,6 +15,12 @@ header {
     background-color: rgb(210, 230, 236);
 }
 
+footer {
+    padding: 12px 24px;
+    background-color: rgb(210, 230, 236);
+    box-shadow: 0 -1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
 .logo {
     height: 72px;
     float: left;
@@ -64,7 +70,6 @@ main {
 
 .trade-item {
     width: 160px;
-    display: inline-block;
     margin: 0 10px 20px 10px;
 }
 
@@ -164,4 +169,14 @@ button[type=submit]:not(:disabled):hover {
 button:disabled {
     color: #888;
     background-color: #aaa;
+}
+
+label.required:after {
+    content: ' *';
+    color: #dd0000;
+}
+
+.sticky-footer {
+    position: sticky;
+    bottom: 0;
 }

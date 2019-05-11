@@ -1,36 +1,58 @@
-var vm = new Vue({
+function formatPrice(value) {
+    return "£" + value.toFixed(2);
+}
+
+var vmOrderList = new Vue({
     el: '#order-list',
     data: {
         order: {},
-        totalAmount: 0,
         totalPrice: 0,
+        totalQuantity: 0,
     },
+    methods: {
+        formatPrice: formatPrice
+    }
+});
+
+var vmOrderFooter = new Vue({
+    el: '#order-footer',
+    data: {
+        totalPrice: 0,
+        totalQuantity: 0,
+    },
+    methods: {
+        formatPrice: formatPrice
+    }
 });
 
 var orderList = document.getElementById('id_order');
 
 function updateOrder(event) {
-    var amount = parseInt(event.target.value);
-    var itemData = event.target.getAttribute('data-name').split('|');
-
-    var itemCode = itemData[0];
-    var itemName = itemData[1];
+    var element = event.target;
+    var amount = parseInt(element.value);
+    var itemName = element.getAttribute('data-name');
+    var itemCode = element.getAttribute('data-code');
+    var itemPrice = element.getAttribute('data-price');
 
     var changeInTotal = amount;
-    if (vm.order[itemCode]) {
-        changeInTotal -= vm.order[itemCode].amount;
+    if (vmOrderList.order[itemCode]) {
+        changeInTotal -= vmOrderList.order[itemCode].amount;
     }
 
-    Vue.set(vm.order, itemCode, {
+    Vue.set(vmOrderList.order, itemCode, {
         name: itemName,
         amount: amount,
-        price: (amount * cardPrice).toFixed(2)
+        price: (amount * itemPrice).toFixed(2)
     });
 
-    vm.totalAmount += changeInTotal;
-    vm.totalPrice = (vm.totalAmount * cardPrice).toFixed(2);
+    vmOrderList.totalQuantity += changeInTotal;
+    vmOrderList.totalPrice += changeInTotal * itemPrice;
 
-    orderList.setAttribute('value', JSON.stringify(vm.order));
+    vmOrderFooter.totalPrice = vmOrderList.totalPrice;
+    vmOrderFooter.totalQuantity = vmOrderList.totalQuantity;
+
+    // Add order to hidden field
+    orderList.setAttribute('value', JSON.stringify(vmOrderList.order));
 }
 
 // Add event handlers to drops down elements;
