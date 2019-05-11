@@ -21,20 +21,22 @@
         <form id="order-form" action="." method="POST">
             {% csrf_token %}
 
-            <div class="field-wrapper">
-                {{ form.name.errors }} {{ form.name.label_tag }} {{ form.name }}
-            </div>
-            <div class="field-wrapper">
-                {{ form.email.errors }} {{ form.email.label_tag }} {{ form.email }}
-            </div>
-            <div class="field-wrapper">
-                {{ form.delivery_address.errors }} {{ form.delivery_address.label_tag }} {{ form.delivery_address }}
-            </div>
-            <div class="field-wrapper">
-                {{ form.billing_address.errors }} {{ form.billing_address.label_tag }} {{ form.billing_address }}
-            </div>
-            <div class="field-wrapper">
-                {{ form.comments.errors }} {{ form.comments.label_tag }} {{ form.comments }}
+            <div class="form-inputs">
+                <div class="field-wrapper">
+                    {{ form.name.errors }} {{ form.name.label_tag }} {{ form.name }}
+                </div>
+                <div class="field-wrapper">
+                    {{ form.email.errors }} {{ form.email.label_tag }} {{ form.email }}
+                </div>
+                <div class="field-wrapper">
+                    {{ form.delivery_address.errors }} {{ form.delivery_address.label_tag }} {{ form.delivery_address }}
+                </div>
+                <div class="field-wrapper">
+                    {{ form.billing_address.errors }} {{ form.billing_address.label_tag }} {{ form.billing_address }}
+                </div>
+                <div class="field-wrapper">
+                    {{ form.comments.errors }} {{ form.comments.label_tag }} {{ form.comments }}
+                </div>
             </div>
 
             {{ form.order.as_hidden }}
@@ -69,9 +71,7 @@
                     </table>
 
                     <div>
-                        <button type="submit" :disabled="totalQuantity === 0">
-                            Submit order
-                        </button>
+                        <input type="submit" id="submit-form" class="hidden" />
                     </div>
                 </div>
             {% endverbatim %}
@@ -85,6 +85,7 @@
             <div id="order-footer">
                 <div v-if="totalQuantity > 0">
                     {{ totalQuantity }} items for {{ formatPrice(totalPrice) }}
+                    <input type="submit" form="order-form" />
                 </div>
                 <div v-else>
                     Select your cards

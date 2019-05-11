@@ -1,3 +1,7 @@
+
+var orderList = document.getElementById('id_order');
+var submitButton = document.getElementById('submit-button');
+
 function formatPrice(value) {
     return "£" + value.toFixed(2);
 }
@@ -24,8 +28,6 @@ var vmOrderFooter = new Vue({
         formatPrice: formatPrice
     }
 });
-
-var orderList = document.getElementById('id_order');
 
 function updateOrder(event) {
     var element = event.target;
