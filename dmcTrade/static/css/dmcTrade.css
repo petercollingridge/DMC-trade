@@ -80,9 +80,7 @@ main {
 .trade-item figcaption {
     line-height: 20px;
     height: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    position: relative;
 }
 
 .item-code {
@@ -93,17 +91,16 @@ main {
 .item-name {
     font-size: 0.8rem;
     font-weight: 300;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     text-transform: uppercase;
-}
-
-.select-trade-item-wrapper {
-    position: relative;
 }
 
 .select-trade-item {
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 0;
+    top: 0;
 }
 
 .trade-item img {

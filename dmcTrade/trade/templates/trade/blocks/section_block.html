@@ -10,11 +10,8 @@
         {% for item in value.items %}
             <figure class="trade-item" title="{{ item.name }}">
                 <figcaption>
-                    <span class="item-code">{{ item.code }}:</span>
-                    <span class="item-name">{{ item.name }}</span>
-                </figcaption>
+                    <div class="item-code">{{ item.code }}</div>
 
-                <div class="select-trade-item-wrapper">
                     <select
                         class="select-trade-item"
                         data-code="{{ item.code }}"
@@ -31,9 +28,13 @@
                         <option value='42'>42</option>
                         <option value='48'>48</option>
                     </select>
-                </div>
+
+                </figcaption>
 
                 {% image item.image width-160 %}
+                <figcaption class="item-name">
+                    {{ item.name }}
+                </figcaption>
             </figure>
         {% endfor %}
     </div>
