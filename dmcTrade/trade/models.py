@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
@@ -50,16 +52,43 @@ class TradeListingPage(Page):
         StreamFieldPanel('body'),
     ]
 
+    def get_message(self, name, order, billing_address, delivery_address, comments):
+        items = json.loads(order)
+
+        message = "Hello {0},\n".format(name)
+        message += "Thank you for your DMC order.\n\n"
+        message += "Details\n"
+
+        total = 0
+        for code, values in sorted(items.items(), key=lambda item: item[0]):
+            total += float(values.get('amount', 0))
+            message += "£{price}: {amount} x {code} - {name}\n".format(code=code, **values)
+
+        message += "Order total: £{0:.2f}\n\n".format(total)
+
+        message += "Billing address: {}\n".format(billing_address)
+        message += "Delivery address: {}\n\n".format(delivery_address)
+
+        message += "Additional comments: {0}\n".format(comments)
+
+        return message
+
     def serve(self, request):
         from dmcTrade.trade.forms import OrderForm
 
         if request.method == 'POST':
             form = OrderForm(request.POST)
             if form.is_valid():
-                sender = form.cleaned_data['email']
-                message = form.cleaned_data['order']
-                subject = "Order from " + form.cleaned_data['name']
-                recipients = ['peter.collingridge@gmail.com', sender]
+                name = form.cleaned_data['name']
+                order = form.cleaned_data['order']
+                billing_address = form.cleaned_data['billing_address']
+                delivery_address = form.cleaned_data['delivery_address']
+                comments = form.cleaned_data['comments']
+
+                subject = "Order Confirmation"
+                message = self.get_message(name, order, billing_address, delivery_address, comments)
+                sender = 'trade@dmc.petercollingridge.co.uk'
+                recipients = [form.cleaned_data['email'], 'daisymaycollingridge@gmail.com']
                 send_mail(subject, message, sender, recipients)
                 
                 return redirect('/thank-you', {
