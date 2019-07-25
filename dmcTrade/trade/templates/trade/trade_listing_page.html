@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}trade-page{% endblock %}
 
@@ -29,10 +29,14 @@
                     {{ form.email.errors }} {{ form.email.label_tag }} {{ form.email }}
                 </div>
                 <div class="field-wrapper">
-                    {{ form.delivery_address.errors }} {{ form.delivery_address.label_tag }} {{ form.delivery_address }}
+                    {{ form.phone.errors }} {{ form.phone.label_tag }} {{ form.phone }}
                 </div>
                 <div class="field-wrapper">
                     {{ form.billing_address.errors }} {{ form.billing_address.label_tag }} {{ form.billing_address }}
+                </div>
+                <p>If different from the billing address:</p>
+                <div class="field-wrapper">
+                    {{ form.delivery_address.errors }} {{ form.delivery_address.label_tag }} {{ form.delivery_address }}
                 </div>
                 <div class="field-wrapper">
                     {{ form.comments.errors }} {{ form.comments.label_tag }} {{ form.comments }}
@@ -69,7 +73,12 @@
                             </tr>
                         </tfoot>
                     </table>
-
+                    <div v-if="totalPrice < 100" class="order-message">
+                        Order £100 or more to get free delivery.
+                    </div>
+                    <div v-else="" class="order-message">
+                        Free delivery!
+                    </div>
                     <div>
                         <input type="submit" id="submit-form" class="hidden" />
                     </div>

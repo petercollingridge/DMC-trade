@@ -18,15 +18,9 @@
                         data-name="{{ item.name }}"
                         data-price="{{ value.item_price }}"
                     >
-                        <option value='0'>0</option>
-                        <option value='6'>6</option>
-                        <option value='12'>12</option>
-                        <option value='18'>18</option>
-                        <option value='24'>24</option>
-                        <option value='30'>30</option>
-                        <option value='36'>36</option>
-                        <option value='42'>42</option>
-                        <option value='48'>48</option>
+                        {% for pack_size in pack_sizes %}
+                            <option value="{{ pack_size }}">{{ pack_size }}</option>
+                        {% endfor %}
                     </select>
 
                 </figcaption>
