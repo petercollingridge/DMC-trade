@@ -65,21 +65,23 @@ class TradeListingPage(Page):
         items = json.loads(order)
 
         message = "Hello {0},\n".format(name)
-        message += "Thank you for your DMC order.\n\n"
+        message += "Many thanks for placing an order with DMC Illustrations. Please see order details below:\n\n"
         message += "Details\n"
 
         total = 0
         for code, values in sorted(items.items(), key=lambda item: item[0]):
             total += float(values.get('amount', 0))
-            message += "£{price}: {amount} x {code} - {name}\n".format(code=code, **values)
+            message += "{code} - {name} x {amount} £{price}\n".format(code=code, **values)
 
         message += "Order total: £{0:.2f}\n\n".format(total)
+        message += "*please note, a delivery charge will be added to orders under £100\n\n"
 
         message += "Billing address: {}\n".format(billing_address)
         message += "Delivery address: {}\n\n".format(delivery_address)
         message += "Phone number: {}\n\n".format(phone)
 
-        message += "Additional comments: {0}\n".format(comments)
+        message += "Additional comments: {0}\n\n".format(comments)
+        message += "We will contact you with your invoice and estimated delivery date. Any questions please email sales@dmcillustrations.com\n"
 
         return message
 
@@ -99,7 +101,7 @@ class TradeListingPage(Page):
                 subject = "Order Confirmation"
                 message = self.get_message(name, order, phone, billing_address, delivery_address, comments)
                 sender = 'trade@dmc.petercollingridge.co.uk'
-                recipients = [form.cleaned_data['email'], 'daisymaycollingridge@gmail.com']
+                recipients = [form.cleaned_data['email'], 'sales@dmcillustrations.com']
                 send_mail(subject, message, sender, recipients)
                 
                 return redirect('/thank-you', {
