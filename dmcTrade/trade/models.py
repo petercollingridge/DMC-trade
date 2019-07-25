@@ -32,7 +32,16 @@ class SectionBlock(blocks.StructBlock):
     heading = blocks.CharBlock()
     description = blocks.RichTextBlock(blank=True)
     item_price = blocks.FloatBlock()
+    pack_size = blocks.IntegerBlock(default=6)
     items = blocks.ListBlock(ItemBlock)
+
+    def get_context(self, value):
+        context = super(SectionBlock, self).get_context(value)
+        if value['pack_size'] == 1:
+            context['pack_sizes'] = list(range(21))
+        else:
+            context['pack_sizes'] = [6 * i for i in range(9)]
+        return context
 
     class Meta:
         icon = 'placeholder'
@@ -52,7 +61,7 @@ class TradeListingPage(Page):
         StreamFieldPanel('body'),
     ]
 
-    def get_message(self, name, order, billing_address, delivery_address, comments):
+    def get_message(self, name, order, phone, billing_address, delivery_address, comments):
         items = json.loads(order)
 
         message = "Hello {0},\n".format(name)
@@ -68,6 +77,7 @@ class TradeListingPage(Page):
 
         message += "Billing address: {}\n".format(billing_address)
         message += "Delivery address: {}\n\n".format(delivery_address)
+        message += "Phone number: {}\n\n".format(phone)
 
         message += "Additional comments: {0}\n".format(comments)
 
@@ -81,12 +91,13 @@ class TradeListingPage(Page):
             if form.is_valid():
                 name = form.cleaned_data['name']
                 order = form.cleaned_data['order']
+                phone = form.cleaned_data['phone']
                 billing_address = form.cleaned_data['billing_address']
                 delivery_address = form.cleaned_data['delivery_address']
                 comments = form.cleaned_data['comments']
 
                 subject = "Order Confirmation"
-                message = self.get_message(name, order, billing_address, delivery_address, comments)
+                message = self.get_message(name, order, phone, billing_address, delivery_address, comments)
                 sender = 'trade@dmc.petercollingridge.co.uk'
                 recipients = [form.cleaned_data['email'], 'daisymaycollingridge@gmail.com']
                 send_mail(subject, message, sender, recipients)
