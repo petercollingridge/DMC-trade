@@ -1,3 +1,4 @@
+__pycache__/
 .DS_Store
 pw.txt
 *.sqlite3
