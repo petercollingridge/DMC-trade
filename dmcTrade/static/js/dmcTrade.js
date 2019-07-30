@@ -63,3 +63,12 @@ var dropdowns = document.getElementsByClassName('select-trade-item');
 for (var i = 0; i < dropdowns.length; i++) {
     dropdowns[i].addEventListener('change', updateOrder);
 }
+
+window.onload = function() {
+    // Check whether dropdowns have a value already
+    for (var i = 0; i < dropdowns.length; i++) {
+        if (dropdowns[i].value > 0) {
+            updateOrder({ target: dropdowns[i] });
+        }
+    }
+}
