@@ -63,15 +63,15 @@ class TradeListingPage(Page):
 
     def get_message(self, name, order, phone, billing_address, delivery_address, comments):
         items = json.loads(order)
-
+        print(order)
         message = "Hello {0},\n".format(name)
         message += "Many thanks for placing an order with DMC Illustrations. Please see order details below:\n\n"
         message += "Details\n"
 
         total = 0
         for code, values in sorted(items.items(), key=lambda item: item[0]):
-            total += float(values.get('amount', 0))
-            message += "{code} - {name} x {amount} £{price}\n".format(code=code, **values)
+            total += float(values.get('price', 0))
+            message += "{code} - {name} x {amount}: £{price}\n".format(code=code, **values)
 
         message += "Order total: £{0:.2f}\n\n".format(total)
         message += "*please note, a delivery charge will be added to orders under £100\n\n"
